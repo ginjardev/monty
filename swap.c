@@ -1,11 +1,11 @@
 #include "monty.h"
 /**
- * f_swap - swaps the top two elements of the stack.
+ * swp_fxn - swaps the top two elements of the stack.
  * @head: head of stack
  * @counter: line_number
  * Return: no return
 */
-void f_swap(stack_t **head, unsigned int counter)
+void swp_fxn(stack_t **head, unsigned int counter)
 {
 	stack_t *s;
 	int inc = 0, temp;

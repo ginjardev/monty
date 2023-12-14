@@ -1,5 +1,4 @@
 #include "monty.h"
-
 train_t train = {NULL, NULL, NULL, 0};
 
 /**
