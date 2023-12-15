@@ -25,6 +25,20 @@ typedef struct stack_s
 } stack_t;
 
 /**
+ * struct instruction_s - opcode and its function
+ * @opcode: the opcode
+ * @f: function to handle the opcode
+ *
+ * Description: opcode and its function
+ * for stack, queues, LIFO, FIFO Holberton project
+ */
+typedef struct instruction_s
+{
+	char *opcode;
+	void (*f)(stack_t **stack, unsigned int line_number);
+} instruction_t;
+
+/**
  * struct train_s - variables -c(argument), file, stream ptr
  * @c: vargument value
  * @file: pointer to monty file
@@ -41,31 +55,26 @@ typedef struct train_s
 }  train_t;
 extern train_t train;
 
-/**
- * struct instruction_s - opcode and its function
- * @opcode: the opcode
- * @f: function to handle the opcode
- *
- * Description: opcode and its function
- * for stack, queues, LIFO, FIFO Holberton project
- */
-typedef struct instruction_s
-{
-	char *opcode;
-	void (*f)(stack_t **stack, unsigned int line_number);
-} instruction_t;
-
-
 int run(char *streamptr, stack_t **stack, unsigned int linecnt, FILE *file);
 void push_fxn(stack_t **head, unsigned int number);
 void pall_fxn(stack_t **head, unsigned int number);
+void handle_error(unsigned int number, stack_t **head);
 void pint_fxn(stack_t **head, unsigned int number);
 void pop_fxn(stack_t **head, unsigned int counter);
+void handle_pop_error(unsigned int counter, stack_t *head);
 void swap_fxn(stack_t **head, unsigned int counter);
+void rotl_fxn(stack_t **head,  __attribute__((unused)) unsigned int counter);
+void rotr_fxn(stack_t **head, __attribute__((unused)) unsigned int counter);
 void add_fxn(stack_t **head, unsigned int counter);
 void nop_fxn(stack_t **head, unsigned int counter);
 void freestk(stack_t *head);
 void add_node(stack_t **head, int n);
 void add_queue(stack_t **head, int n);
+void sub_fxn(stack_t **head, unsigned int counter);
+void div_fxn(stack_t **head, unsigned int counter);
+void mod_fxn(stack_t **head, unsigned int counter);
+void mul_fxn(stack_t **head, unsigned int counter);
+void pchar_fxn(stack_t **head, unsigned int counter);
+void stack_fxn(stack_t **head, unsigned int counter);
 
 #endif
