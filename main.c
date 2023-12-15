@@ -9,12 +9,12 @@ train_t train = {NULL, NULL, NULL, 0};
 */
 int main(int argc, char *argv[])
 {
-	char *content;
-	FILE *file;
-	size_t buff = 0;
 	ssize_t read_stream = 1;
-	stack_t *stack = NULL;
+	char *content;
+	size_t buff = 0;
+	FILE *file;
 	unsigned int count = 0;
+	stack_t *stack = NULL;
 
 	if (argc != 2)
 	{
@@ -28,18 +28,20 @@ int main(int argc, char *argv[])
 		fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
 		exit(EXIT_FAILURE);
 	}
-	while (read_stream > 0)
-	{
+	do {
 		content = NULL;
 		read_stream = getline(&content, &buff, file);
 		train.streamptr = content;
 		count++;
+
 		if (read_stream > 0)
 		{
 			run(content, &stack, count, file);
 		}
+
 		free(content);
-	}
+	} while (read_stream > 0);
+
 	freestk(stack);
 	fclose(file);
 return (0);

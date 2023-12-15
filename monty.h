@@ -76,5 +76,6 @@ void mod_fxn(stack_t **head, unsigned int counter);
 void mul_fxn(stack_t **head, unsigned int counter);
 void pchar_fxn(stack_t **head, unsigned int counter);
 void stack_fxn(stack_t **head, unsigned int counter);
+void pstr_fxn(stack_t **head, unsigned int counter);
 
 #endif

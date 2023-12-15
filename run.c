@@ -17,6 +17,14 @@ int run(char *streamptr, stack_t **stack, unsigned int linecnt, FILE *file)
 				{"swap", swap_fxn},
 				{"add", add_fxn},
 				{"nop", nop_fxn},
+				{"sub", sub_fxn},
+				{"div", div_fxn},
+				{"mul", mul_fxn},
+				{"mod", mod_fxn},
+				{"pchar", pchar_fxn},
+				{"pstr", pstr_fxn},
+				{"rotl", rotl_fxn},
+				{"rotr", rotr_fxn},
 				{NULL, NULL}
 				};
 	unsigned int k = 0;
@@ -26,7 +34,7 @@ int run(char *streamptr, stack_t **stack, unsigned int linecnt, FILE *file)
 	if (opr && opr[0] == '#')
 		return (0);
 
-	while (opst[k].opcode && opr)
+	while (opst[k].opcode && opr != NULL)
 	{
 		if (strcmp(opr, opst[k].opcode) == 0)
 		{	opst[k].f(stack, linecnt);
@@ -34,7 +42,7 @@ int run(char *streamptr, stack_t **stack, unsigned int linecnt, FILE *file)
 		}
 		k++;
 	}
-	if (opr && opst[k].opcode == NULL)
+	if (opr != NULL && opst[k].opcode == NULL)
 	{ fprintf(stderr, "L%d: unknown instruction %s\n", linecnt, opr);
 		fclose(file);
 		free(streamptr);
