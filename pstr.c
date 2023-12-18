@@ -1,22 +1,26 @@
 #include "monty.h"
 /**
- * pstr_fxn - prints the string starting at the top of the stack,
- * followed by a new line
- * @head: head of stack
- * @counter: line_number
- * Return: none
-*/
-void pstr_fxn(stack_t **head, unsigned int counter)
+ * pstr_fxn - prints the stack starting at head.
+ * @head: Head pointer.
+ * @lnum: Current line number.
+ */
+void pstr_fxn(stack_t **head, unsigned int lnum)
 {
-	stack_t *ptr;
-	(void)counter;
+	stack_t *tmp;
+	(void) lnum;
 
-	ptr = *head;
-	do {
-		if (ptr == NULL || ptr->n > 127 || ptr->n <= 0)
-			break;
-		printf("%c", ptr->n);
-		ptr = ptr->next;
-	} while (ptr != NULL);
+	/* If the list is empty, print only a new line */
+	if (*head == NULL)
+	{
+		printf("\n");
+		return;
+	}
+
+	tmp = *head;
+	while (tmp != NULL && tmp && tmp->n != 0 && (tmp->n > 0 && tmp->n < 127))
+	{
+		printf("%c", (char)tmp->n);
+		tmp = tmp->next;
+	}
 	printf("\n");
 }

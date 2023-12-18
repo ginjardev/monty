@@ -1,40 +1,33 @@
 #include "monty.h"
-/**
- * mod_fxn - modulo
- * @head: head of stack
- * @counter: number of lines
- * Return: none
-*/
-void mod_fxn(stack_t **head, unsigned int counter)
-{
-	stack_t *h;
-	int num = 0, temp;
 
-	h = *head;
-	while (h)
+/**
+ * mod_fxn - gets the remainder after division of the the last (ultimate)
+ * by the second last (penultimate) element.
+ * @head: pointer to head node.
+ * @lnum: The current line number being executed.
+ */
+void mod_fxn(stack_t **head, unsigned int lnum)
+{
+	stack_t *ult, *penult;
+
+	if (*head == NULL || (*head)->next == NULL)
 	{
-		h = h->next;
-		num++;
-	}
-	if (num < 2)
-	{
-		fprintf(stderr, "L%d: can't mod, stack too short\n", counter);
-		fclose(train.file);
-		free(train.streamptr);
-		freestk(*head);
+		fprintf(stderr, "L%u: can't mod_fxn, stack too short\n", lnum);
 		exit(EXIT_FAILURE);
 	}
-	h = *head;
-	if (h->n == 0)
+
+	ult = *head;
+	penult = ult->next;
+
+	if ((*head)->n == 0)
 	{
-		fprintf(stderr, "L%d: division by zero\n", counter);
-		fclose(train.file);
-		free(train.streamptr);
-		freestk(*head);
+		fprintf(stderr, "L%u: division by zero\n", lnum);
 		exit(EXIT_FAILURE);
 	}
-	temp = h->next->n % h->n;
-	h->next->n = temp;
-	*head = h->next;
-	free(h);
+
+	penult->n = penult->n % ult->n;
+
+	*head = penult;
+	penult->prev = NULL;
+	free(ult);
 }

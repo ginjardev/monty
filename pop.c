@@ -1,35 +1,23 @@
 #include "monty.h"
 /**
- * pop_fxn - pops the top of stack
- * @head: stack head
- * @counter: line number
- * Return: none
-*/
-void pop_fxn(stack_t **head, unsigned int counter)
+ * pop_fxn - deletes/removes the head element.
+ * @head: head pointer
+ * @lnum: is current line number
+ */
+void pop_fxn(stack_t **head, unsigned int lnum)
 {
-	stack_t *temp;
+	stack_t *tmp;
 
 	if (*head == NULL)
 	{
-		handle_pop_error(counter, *head);
+		fprintf(stderr, "L%u: can't pop_fxn an empty stack\n", lnum);
+		exit(EXIT_FAILURE);
 	}
 
-	temp = *head;
-	*head = temp->next;
-	free(temp);
-}
+	tmp = *head;
+	*head = (*head)->next;
+	if (*head != NULL)
+		(*head)->prev = NULL;
 
-/**
- * handle_pop_error - error handling for push
- * @head: head of the stack
- * @counter: line number
- * Return: none
-*/
-void handle_pop_error(unsigned int counter, stack_t *head)
-{
-	fprintf(stderr, "L%d: can't pop an empty stack\n", counter);
-	fclose(train.file);
-	free(train.streamptr);
-	freestk(head);
-	exit(EXIT_FAILURE);
+	free(tmp);
 }

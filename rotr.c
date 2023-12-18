@@ -1,26 +1,31 @@
 #include "monty.h"
 /**
-  *rotr_fxn- rotates the stack to the bottom
-  *@head: head of stack
-  *@counter: the number of the line
-  *Return: none
+ * rotr_fxn - rotates the stack or queue to the last node.
+ * @head: Head pointer.
+ * @lnum: Current line number.
  */
-void rotr_fxn(stack_t **head, __attribute__((unused)) unsigned int counter)
+void rotr_fxn(stack_t **head, unsigned int lnum)
 {
-	stack_t *rot;
+	stack_t *current, *last;
+	(void) lnum;
 
-	rot = *head;
 	if (*head == NULL || (*head)->next == NULL)
-	{
 		return;
-	}
-	while (rot->next)
-	{
-		rot = rot->next;
-	}
-	rot->next = *head;
-	rot->prev->next = NULL;
-	rot->prev = NULL;
-	(*head)->prev = rot;
-	(*head) = rot;
+
+	current = *head;
+
+	/* Traverse to find the current last element */
+	while (current->next != NULL)
+		current = current->next;
+
+	last = current;
+
+	/* Update pointers to rotate the list */
+	last->prev->next = NULL;
+	last->prev = NULL;
+	last->next = *head;
+	(*head)->prev = last;
+
+	/* Update the head to point to the new last element */
+	*head = last;
 }

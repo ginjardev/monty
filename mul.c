@@ -1,32 +1,26 @@
 #include "monty.h"
 /**
- * mul_fxn - multiplies the top two elements of the stack.
- * @head: head of stack
- * @counter: number of lines
- * Return: none
-*/
-void mul_fxn(stack_t **head, unsigned int counter)
+ * mul_fxn - multiplies the the last (ultimate) by the
+ * second last (penultimate) element.
+ * @head: pointer to head node.
+ * @lnum: The current line number being executed.
+ */
+void mul_fxn(stack_t **head, unsigned int lnum)
 {
-	stack_t *ptr;
-	int num = 0, temp;
+	stack_t *ult, *penult;
 
-	ptr = *head;
-	while (ptr)
+	if (*head == NULL || (*head)->next == NULL)
 	{
-		ptr = ptr->next;
-		num++;
-	}
-	if (num < 2)
-	{
-		fprintf(stderr, "L%d: can't mul, stack too short\n", counter);
-		fclose(train.file);
-		free(train.streamptr);
-		freestk(*head);
+		fprintf(stderr, "L%u: can't mul_fxn, stack too short\n", lnum);
 		exit(EXIT_FAILURE);
 	}
-	ptr = *head;
-	temp = ptr->next->n * ptr->n;
-	ptr->next->n = temp;
-	*head = ptr->next;
-	free(ptr);
+
+	ult = *head;
+	penult = ult->next;
+
+	penult->n = (penult->n) * (ult->n);
+
+	*head = penult;
+	penult->prev = NULL;
+	free(ult);
 }

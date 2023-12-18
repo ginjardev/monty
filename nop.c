@@ -1,12 +1,13 @@
 #include "monty.h"
+
 /**
-  *nop_fxn- does nothing lmoo
-  *@head: stack head
-  *@counter: line_number
-  *Return: no return
+ * nop_fxn - doesn't do a fricken thing.
+ * @head: A pointer to the head of the stack/queue.
+ * @lnum: The line number.
  */
-void nop_fxn(stack_t **head, unsigned int counter)
+void nop_fxn(stack_t **head, unsigned int lnum)
 {
-	(void) counter;
+	(void) lnum;
 	(void) head;
 }
+

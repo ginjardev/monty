@@ -1,40 +1,31 @@
 #include "monty.h"
 /**
- * div_fxn - divides the top two elements of the stack.
- * @head: head of stack
- * @counter: line number
- * Return: none
-*/
-void div_fxn(stack_t **head, unsigned int counter)
+ * div_fxn - divides the last (ultimate) by the
+ * second last (penultimate) element.
+ * @head: pointer to head node.
+ * @lnum: The line number.
+ */
+void div_fxn(stack_t **head, unsigned int lnum)
 {
-	stack_t *k;
-	int len = 0, temp;
+	stack_t *ult, *penult;
 
-	k = *head;
-	while (k)
+	if (*head == NULL || (*head)->next == NULL)
 	{
-		k = k->next;
-		len++;
-	}
-	if (len < 2)
-	{
-		fprintf(stderr, "L%d: can't div, stack too short\n", counter);
-		fclose(train.file);
-		free(train.streamptr);
-		freestk(*head);
+		fprintf(stderr, "L%u: can't div, stack too short\n", lnum);
 		exit(EXIT_FAILURE);
 	}
-	k = *head;
-	if (k->n == 0)
+	else if ((*head)->n == 0)
 	{
-		fprintf(stderr, "L%d: division by zero\n", counter);
-		fclose(train.file);
-		free(train.streamptr);
-		freestk(*head);
+		fprintf(stderr, "L%u: division by zero\n", lnum);
 		exit(EXIT_FAILURE);
 	}
-	temp = k->next->n / k->n;
-	k->next->n = temp;
-	*head = k->next;
-	free(k);
+
+	ult = *head;
+	penult = ult->next;
+
+	penult->n /= ult->n;
+
+	*head = penult;
+	penult->prev = NULL;
+	free(ult);
 }

@@ -1,78 +1,109 @@
 #include "monty.h"
-/**
-* freestk - frees the memory of a list
-* @head: head of the stack
-*/
-void freestk(stack_t *head)
-{
-	stack_t *temp;
-
-	temp = head;
-	while (head)
-	{
-		temp = head->next;
-		free(head);
-		head = temp;
-	}
-}
 
 /**
- * add_node - add node to the head stack
- * @head: head of the stack
- * @n: index of new node
- * Return: no return
-*/
-void add_node(stack_t **head, int n)
+ * begin_node_add - adds a new node to list
+ * @head: head of linked list
+ * @elem: element to be stored in new node
+ */
+void begin_node_add(stack_t **head, int elem)
 {
+	stack_t *new;
 
-	stack_t *new_node, *temp;
-
-	temp = *head;
-	new_node = malloc(sizeof(stack_t));
-	if (new_node == NULL)
-	{
-		printf("Error\n");
-		exit(0);
-	}
-	if (temp)
-		temp->prev = new_node;
-	new_node->n = n;
-	new_node->next = *head;
-	new_node->prev = NULL;
-	*head = new_node;
-}
-
-/**
- * add_queue - add node to the tail stack
- * @n: new_value
- * @head: head of the stack
- * Return: no return
-*/
-void add_queue(stack_t **head, int n)
-{
-	stack_t *new, *temp;
-
-	temp = *head;
 	new = malloc(sizeof(stack_t));
 	if (new == NULL)
 	{
-		printf("Error\n");
+		fprintf(stderr, "Error: malloc failed\n");
+		exit(EXIT_FAILURE);
 	}
-	new->n = n;
+
+	new->n = elem;
+	new->prev = NULL;
+	new->next = *head;
+
+	if (*head != NULL)
+		(*head)->prev = new;
+	*head = new;
+}
+
+/**
+ * end_node_add - adds a new node at the end of list.
+ * @head: head of linked list
+ * @elem: element to be stored in new node
+ */
+void end_node_add(stack_t **head, int elem)
+{
+	stack_t *new, *current;
+
+	new = malloc(sizeof(stack_t));
+	if (new == NULL)
+	{
+		fprintf(stderr, "Error: malloc failed\n");
+		exit(EXIT_FAILURE);
+	}
+
+	new->n = elem;
+	new->prev = NULL;
 	new->next = NULL;
-	if (temp)
-	{
-		while (temp->next)
-			temp = temp->next;
-	}
-	if (!temp)
-	{
+
+	if (*head == NULL)
 		*head = new;
-		new->prev = NULL;
-	}
 	else
 	{
-		temp->next = new;
-		new->prev = temp;
+		current = *head;
+		while (current->next != NULL)
+		{
+			current = current->next;
+		}
+		current->next = new;
+		new->prev = current;
 	}
+}
+
+/**
+ * _isdigit - checks if a given string is an integer.
+ * @str: the string to be tested.
+ *
+ * Return: 1 if is an integer; otherwise 0.
+ */
+int _isdigit(char *str)
+{
+	int n = 0;
+
+	if (str[0] == '-')
+		str++;
+
+	while (str[n] != '\0')
+	{
+		if (str[n] < '0' || str[n] > '9')
+			return (0);
+		n++;
+	}
+
+	return (1);
+}
+
+/**
+ * stack_fxn - Sets the execution mode to "stack".
+ * @head: a double pointer to the stack(unused).
+ * @lnum: The line number.
+ */
+void stack_fxn(stack_t **head, unsigned int lnum)
+{
+	(void) head;
+	(void) lnum;
+
+	flip = "stack";
+}
+
+/**
+ * queue_fxn - Sets the execution mode to "queue".
+ * @head: a double pointer to queue(unused).
+ * @lnum: The line number.
+ */
+void queue_fxn(stack_t **head, unsigned int lnum)
+{
+	(void) head;
+	(void) lnum;
+
+	flip = "queue";
 }

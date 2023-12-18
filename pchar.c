@@ -1,31 +1,27 @@
 #include "monty.h"
 /**
- * pchar_fxn - prints the char at the top of the stack,
- * followed by a new line
- * @head: head of stack
- * @counter: the number of the line
- * Return: none
-*/
-void pchar_fxn(stack_t **head, unsigned int counter)
+ * pchar_fxn - prints the char at the head of the stack/queue.
+ * @head: Head pointer.
+ * @n: Current line number.
+ */
+void pchar_fxn(stack_t **head, unsigned int n)
 {
-	stack_t *ptr;
+	int askey_val;
 
-	ptr = *head;
-	if (!ptr)
+	if (*head == NULL)
 	{
-		fprintf(stderr, "L%d: can't pchar, stack empty\n", counter);
-		fclose(train.file);
-		free(train.streamptr);
-		freestk(*head);
+		fprintf(stderr, "L%u: can't pchar, stack empty\n", n);
 		exit(EXIT_FAILURE);
 	}
-	if (ptr->n > 127 || ptr->n < 0)
+
+	askey_val = (*head)->n;
+
+	if (askey_val < 0 || askey_val > 127)
 	{
-		fprintf(stderr, "L%d: can't pchar, value out of range\n", counter);
-		fclose(train.file);
-		free(train.streamptr);
-		freestk(*head);
+		fprintf(stderr, "L%u: can't pchar, value out of range\n", n);
 		exit(EXIT_FAILURE);
 	}
-	printf("%c\n", ptr->n);
+
+	putchar((char)askey_val);
+	putchar('\n');
 }

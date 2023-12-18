@@ -1,48 +1,54 @@
 #include "monty.h"
-train_t train = {NULL, NULL, NULL, 0};
+
+/* Default mode: "stack" */
+char *flip = "stack";
 
 /**
-* main - monty code interpreter
-* @argc: number of arguments
-* @argv: monty file location
-* Return: 0 on success
-*/
+ * main - main function to run monty
+ * @argc: number of arguments
+ * @argv: list of arguments as strings
+ *
+ * Return: 0 if success.
+ */
 int main(int argc, char *argv[])
 {
-	ssize_t read_stream = 1;
-	char *content;
-	size_t buff = 0;
+	stack_t *head = NULL;
+	size_t buff = 0, lnum = 0;
+	char *line = NULL, *opcode, *elem;
 	FILE *file;
-	unsigned int count = 0;
-	stack_t *stack = NULL;
+	int status;
 
 	if (argc != 2)
 	{
 		fprintf(stderr, "USAGE: monty file\n");
 		exit(EXIT_FAILURE);
 	}
+
 	file = fopen(argv[1], "r");
-	train.file = file;
-	if (!file)
+	if (file == NULL)
 	{
 		fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
 		exit(EXIT_FAILURE);
 	}
+
 	do {
-		content = NULL;
-		read_stream = getline(&content, &buff, file);
-		train.streamptr = content;
-		count++;
+		lnum++;
+		if (getline(&line, &buff, file) == -1)
+			break;
 
-		if (read_stream > 0)
-		{
-			run(content, &stack, count, file);
-		}
+		opcode = strtok(line, " \t\n");
+		elem = strtok(NULL, " \t\n");
 
-		free(content);
-	} while (read_stream > 0);
+		if (opcode[0] == '#' || !opcode)
+			continue;
 
-	freestk(stack);
+		run(opcode, elem, &head, lnum);
+		status = 1;
+	} while (status);
+
 	fclose(file);
-return (0);
+	free(line);
+	freestk(&head);
+
+	return (EXIT_SUCCESS);
 }

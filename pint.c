@@ -1,19 +1,16 @@
 #include "monty.h"
 /**
- * pint_fxn - prints the top
- * @head: stack head
- * @number: line_number
- * Return: no return
-*/
-void pint_fxn(stack_t **head, unsigned int number)
+ * pint_fxn - prints value in head pointer
+ * @head: head pointer
+ * @lnum: is current line number
+ */
+void pint_fxn(stack_t **head, unsigned int lnum)
 {
 	if (*head == NULL)
 	{
-		fprintf(stderr, "L%u: can't pint, stack empty\n", number);
-		fclose(train.file);
-		free(train.streamptr);
-		freestk(*head);
+		fprintf(stderr, "L%u: can't pint_fxn, stack empty\n", lnum);
 		exit(EXIT_FAILURE);
 	}
+
 	printf("%d\n", (*head)->n);
 }

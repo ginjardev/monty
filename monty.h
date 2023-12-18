@@ -1,13 +1,17 @@
 #ifndef MONTY_H
 #define MONTY_H
-#define  _POSIX_C_SOURCE 200809L
-#include <stdio.h>
+#define  _GNU_SOURCE
+
 #include <stdlib.h>
-#include <sys/types.h>
+#include <stdio.h>
 #include <unistd.h>
 #include <fcntl.h>
 #include <string.h>
 #include <ctype.h>
+
+/* Switches mode between stacking and queuing */
+extern char *flip;
+
 /**
  * struct stack_s - doubly linked list representation of a stack (or queue)
  * @n: integer
@@ -15,7 +19,7 @@
  * @next: points to the next element of the stack (or queue)
  *
  * Description: doubly linked list node structure
- * for stack, queues, LIFO, FIFO Holberton project
+ * for stack, queues, LIFO, FIFO
  */
 typedef struct stack_s
 {
@@ -30,7 +34,7 @@ typedef struct stack_s
  * @f: function to handle the opcode
  *
  * Description: opcode and its function
- * for stack, queues, LIFO, FIFO Holberton project
+ * for stack, queues, LIFO, FIFO
  */
 typedef struct instruction_s
 {
@@ -38,44 +42,40 @@ typedef struct instruction_s
 	void (*f)(stack_t **stack, unsigned int line_number);
 } instruction_t;
 
-/**
- * struct train_s - variables -c(argument), file, stream ptr
- * @c: vargument value
- * @file: pointer to monty file
- * @streamptr: pointer to content of stream
- * @flip: flag change from stack to queue
- * Description: moves values through the program like a train
- */
-typedef struct train_s
-{
-	char *c;
-	FILE *file;
-	char *streamptr;
-	int flip;
-}  train_t;
-extern train_t train;
+/* Stack operations functions */
+void push_fxn(stack_t **head, unsigned int lnum, int elem);
+void pall_fxn(stack_t **head, unsigned int lnum);
+void pint_fxn(stack_t **head, unsigned int lnum);
+void pop_fxn(stack_t **head, unsigned int lnum);
 
-int run(char *streamptr, stack_t **stack, unsigned int linecnt, FILE *file);
-void push_fxn(stack_t **head, unsigned int number);
-void pall_fxn(stack_t **head, unsigned int number);
-void handle_error(unsigned int number, stack_t **head);
-void pint_fxn(stack_t **head, unsigned int number);
-void pop_fxn(stack_t **head, unsigned int counter);
-void handle_pop_error(unsigned int counter, stack_t *head);
-void swap_fxn(stack_t **head, unsigned int counter);
-void rotl_fxn(stack_t **head,  __attribute__((unused)) unsigned int counter);
-void rotr_fxn(stack_t **head, __attribute__((unused)) unsigned int counter);
-void add_fxn(stack_t **head, unsigned int counter);
-void nop_fxn(stack_t **head, unsigned int counter);
-void freestk(stack_t *head);
-void add_node(stack_t **head, int n);
-void add_queue(stack_t **head, int n);
-void sub_fxn(stack_t **head, unsigned int counter);
-void div_fxn(stack_t **head, unsigned int counter);
-void mod_fxn(stack_t **head, unsigned int counter);
-void mul_fxn(stack_t **head, unsigned int counter);
-void pchar_fxn(stack_t **head, unsigned int counter);
-void stack_fxn(stack_t **head, unsigned int counter);
-void pstr_fxn(stack_t **head, unsigned int counter);
+/* Stack calculations functions */
+void add_fxn(stack_t **head, unsigned int lnum);
+void sub_fxn(stack_t **head, unsigned int lnum);
+void div_fxn(stack_t **head, unsigned int lnum);
+void mul_fxn(stack_t **head, unsigned int lnum);
+void mod_fxn(stack_t **head, unsigned int lnum);
 
-#endif
+/* Stack manipulations functions */
+void swap_fxn(stack_t **head, unsigned int lnum);
+void pchar_fxn(stack_t **head, unsigned int n);
+void pstr_fxn(stack_t **head, unsigned int lnum);
+void rotl_fxn(stack_t **head, unsigned int lnum);
+void rotr_fxn(stack_t **head, unsigned int lnum);
+
+/* Linked lists operations */
+void begin_node_add(stack_t **head, int elem);
+void end_node_add(stack_t **head, int elem);
+
+
+/* Execute */
+void run(char *opcode, char *elem, stack_t **head, unsigned int n);
+
+/* helpers */
+void nop_fxn(stack_t **head, unsigned int lnum);
+int _isdigit(char *str);
+void stack_fxn(stack_t **head, unsigned int lnum);
+void queue_fxn(stack_t **head, unsigned int lnum);
+void freestk(stack_t **head);
+
+
+#endif /* MONTY_H */

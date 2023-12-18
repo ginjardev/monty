@@ -1,29 +1,26 @@
 #include "monty.h"
 /**
-  *sub_fxn- subtract first two
-  *@head: head of stack
-  *@counter: number of line
-  *Return: none
+ * sub_fxn - subtracts the last (ultimate) of the stack or queue from the
+ * second last (penultimate) element of the stack.
+ * @head: pointer to head node.
+ * @lnum: The line number.
  */
-void sub_fxn(stack_t **head, unsigned int counter)
+void sub_fxn(stack_t **head, unsigned int lnum)
 {
-	stack_t *temp;
-	int nodes, sub;
+	stack_t *ult, *penult;
 
-	temp = *head;
-	for (nodes = 0; temp != NULL; nodes++)
-		temp = temp->next;
-	if (nodes < 2)
+	if (*head == NULL || (*head)->next == NULL)
 	{
-		fprintf(stderr, "L%d: can't sub, stack too short\n", counter);
-		fclose(train.file);
-		free(train.streamptr);
-		freestk(*head);
+		fprintf(stderr, "L%u: can't sub, stack too short\n", lnum);
 		exit(EXIT_FAILURE);
 	}
-	temp = *head;
-	sub = temp->next->n - temp->n;
-	temp->next->n = sub;
-	*head = temp->next;
-	free(temp);
+
+	ult = *head;
+	penult = ult->next;
+
+	penult->n = (penult->n) - (ult->n);
+
+	*head = penult;
+	penult->prev = NULL;
+	free(ult);
 }

@@ -1,32 +1,26 @@
 #include "monty.h"
-/**
- * add_fxn - adds the top two elements of the stack.
- * @head: head of stack
- * @counter: line number
- * Return: none
-*/
-void add_fxn(stack_t **head, unsigned int counter)
-{
-	stack_t *temp;
-	int length = 0, add;
 
-	temp = *head;
-	while (temp)
+/**
+ * add_fxn - Adds the top two elements of the stack or queue.
+ * @head: head pointer to stack or queue.
+ * @lnum: Is the current line.
+ */
+void add_fxn(stack_t **head, unsigned int lnum)
+{
+	stack_t *ult, *penult;
+
+	if ((*head)->next == NULL || *head == NULL)
 	{
-		temp = temp->next;
-		length++;
-	}
-	if (length < 2)
-	{
-		fprintf(stderr, "L%d: can't add, stack too short\n", counter);
-		fclose(train.file);
-		free(train.streamptr);
-		freestk(*head);
+		fprintf(stderr, "L%u: can't add, stack too short\n", lnum);
 		exit(EXIT_FAILURE);
 	}
-	temp = *head;
-	add = temp->n + temp->next->n;
-	temp->next->n = add;
-	*head = temp->next;
-	free(temp);
+
+	ult = *head;
+	penult = ult->next;
+
+	(penult->n) += (ult->n);
+
+	*head = penult;
+	penult->prev = NULL;
+	free(ult);
 }

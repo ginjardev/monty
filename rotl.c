@@ -1,26 +1,25 @@
 #include "monty.h"
 /**
-  *rotl_fxn- rotates the stack to the top
-  *@head: head of stack
-  *@counter: line_number
-  *Return: none
+ * rotl_fxn - rotates the stack or queue to first node
+ * @head: Head pointer.
+ * @lnum: Current line number.
  */
-void rotl_fxn(stack_t **head,  __attribute__((unused)) unsigned int counter)
+void rotl_fxn(stack_t **head, unsigned int lnum)
 {
-	stack_t *temp = *head, *rot;
+	stack_t *current;
+	(void) lnum;
 
 	if (*head == NULL || (*head)->next == NULL)
-	{
 		return;
-	}
-	rot = (*head)->next;
-	rot->prev = NULL;
-	while (temp->next != NULL)
-	{
-		temp = temp->next;
-	}
-	temp->next = *head;
-	(*head)->next = NULL;
-	(*head)->prev = temp;
-	(*head) = rot;
+
+	current = *head;
+	while (current->next != NULL)
+		current = current->next;
+
+	current->next = *head;
+	(*head)->prev = current;
+	*head = (*head)->next;
+	(*head)->prev->next = NULL;
+	(*head)->prev = NULL;
 }
+
